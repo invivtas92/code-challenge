@@ -1,1 +1,7 @@
 /.idea/
+
+node_modules
+dist
+dist-ssr
+*.tsbuildinfo
+tsconfig.vitest-temp.json

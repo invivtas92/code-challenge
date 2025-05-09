@@ -1,0 +1,5 @@
+{
+  "extends": "./tsconfig.appBase.json",
+  "compilerOptions": {},
+  "include": ["src", "vitest.config.ts"]
+}

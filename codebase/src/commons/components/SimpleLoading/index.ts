@@ -1,0 +1,1 @@
+export { SimpleLoading } from './SimpleLoading';
