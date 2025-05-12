@@ -1,5 +1,5 @@
 import { ConfigService } from "./config.service.abstract";
-import { zodValidator } from "@/infra/zodValidator/zodValidator.service";
+import { zodValidator } from "@infra/zodValidator/zodValidator.service";
 import { envSchema, EnvSchema, EnvVariables } from "./envSchema";
 import { Validator } from "../validator/validator.service.abstract";
 
