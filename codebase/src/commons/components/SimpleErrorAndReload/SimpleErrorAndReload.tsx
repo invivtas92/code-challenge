@@ -1,6 +1,8 @@
 import { useRouter } from "@tanstack/react-router";
 import styles from './SimpleErrorAndReload.module.scss';
 
+// TODO: update so it can handle multiple errors
+
 interface SimpleErrorProps {
   error: Error | null
   pageName: string

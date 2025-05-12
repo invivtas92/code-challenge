@@ -1,0 +1,46 @@
+$spacing1: 8px;
+$spacing2: 16px;
+$regularFontSize: 1rem;
+
+.container {
+  display: flex;
+  flex: 1;
+  width: 600px;
+  flex-direction: column;
+  padding: 0 $spacing2 $spacing2 $spacing2;
+  font-size: $regularFontSize;
+  gap: $spacing1;
+
+  &.-centered {
+    align-items: center;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .payButton {
+    font-size: $regularFontSize;
+    background-color: transparent;
+    color: var(--color-1);
+    border: none;
+    color: red;
+    padding-left: 0;
+    align-self: center;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .expAndCvvContainer {
+    display: flex;
+    flex-direction: row;
+    gap: $spacing1;
+
+    input {
+      flex: 1;
+    }
+  }
+}

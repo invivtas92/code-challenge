@@ -1,0 +1,72 @@
+$largeFontSize: 2rem;
+$regularFontSize: 1rem;
+$spacing1: 16px;
+$spacing2: 24px;
+
+.container {
+  width: 500px;
+  border: 2px solid var(--color-1);
+  padding: $spacing1;
+  display: flex;
+  flex-direction: row;
+  border-radius: $spacing2;
+  gap: $spacing2;
+  color: var(--color-1);
+  font-size: $regularFontSize;
+
+  .accountDetails {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+    p {
+      margin: 0;
+    }
+
+    .type {
+      font-size: $largeFontSize;
+    }
+
+    .address {
+      margin-bottom: $spacing2;
+    }
+
+    .balanceValue {
+      float: right;
+
+      &.-neutral {
+        color: grey;
+      }
+
+      &.-positive {
+        color: green;
+      }
+
+      &.-negative {
+        color: red;
+      }
+    }
+
+    .payButton {
+      font-size: $regularFontSize;
+      margin-top: $spacing1;
+      background-color: transparent;
+      color: var(--color-1);
+      border: none;
+      color: red;
+      padding-left: 0;
+      align-self: baseline;
+      cursor: pointer;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+  }
+}

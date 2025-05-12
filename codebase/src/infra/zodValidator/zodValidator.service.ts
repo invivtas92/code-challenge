@@ -1,5 +1,5 @@
 import { ZodType } from 'zod';
-import { SafeParseError, SafeParseSuccess, Validator } from './validator.service.abstract';
+import { SafeParseError, SafeParseSuccess, Validator } from '@services/validator/validator.service.abstract';
 
 class ZodValidator implements Validator {
   parse<T>(schema: unknown, data: T): T {
@@ -26,8 +26,10 @@ class ZodValidator implements Validator {
   }
 };
 
-// TODO: Introduce DI Container later to manage and inject dependencies, for now export an instance of ZodValidator
-// TODO: to be used throughout the codebase
+/**
+ * TODO: Introduce DI Container later to manage and inject dependencies, for now export an instance of ZodValidator
+ * to be used throughout the codebase
+ */ 
 
 const zodValidator = new ZodValidator();
 export { ZodValidator, zodValidator };

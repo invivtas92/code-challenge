@@ -3,9 +3,7 @@ interface SafeParseSuccess<T> {
   data: T
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AllKeys<T> = T extends any ? keyof T : never;
-type FieldErrors<T> = Partial<Record<AllKeys<T>, string[]>>;
+type FieldErrors<T> = Partial<Record<keyof T, string[]>>;
 
 interface SafeParseError<T> {
   success: false

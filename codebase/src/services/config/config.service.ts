@@ -1,12 +1,13 @@
 import { ConfigService } from "./config.service.abstract";
-import { ZodValidator, zodValidator } from "@/services/validator/zodValidator.service";
+import { zodValidator } from "@/infra/zodValidator/zodValidator.service";
 import { envSchema, EnvSchema, EnvVariables } from "./envSchema";
+import { Validator } from "../validator/validator.service.abstract";
 
 class ConfigServiceImpl implements ConfigService {
   #envSchema: unknown;
-  #validator: ZodValidator;
+  #validator: Validator;
 
-  constructor(envSchema: EnvSchema, validator: ZodValidator) {
+  constructor(envSchema: EnvSchema, validator: Validator) {
     this.#envSchema = envSchema;
     this.#validator = validator;
   }
@@ -17,8 +18,9 @@ class ConfigServiceImpl implements ConfigService {
 };
 
 /**
- * TODO: Introduce DI Container later to manage and inject dependencies, for now create and export an
- * instance of ConfigServiceImpl to be imported and used throughout the codebase
+ * TODO: Introduce DI Container later to manage and inject dependencies, for now import 
+ * zodValidator instance and use it to create and export an instance of
+ * ConfigServiceImpl to be imported and used throughout the codebase
  */
 
 const configService = new ConfigServiceImpl(envSchema, zodValidator);
