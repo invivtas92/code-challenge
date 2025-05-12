@@ -1,6 +1,7 @@
 # How to run
 Run the following to run the web application. The application should run on localhost:5174 (default port for vite dev server).
 ```
+npm install
 npm run start
 ```
 
