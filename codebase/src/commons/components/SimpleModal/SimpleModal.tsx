@@ -22,7 +22,7 @@ const ReactPortal = ({ children, id }: ReactPortalProps) => {
     setContainerEl(el);
   
     return () => {
-      el.parentElement?.removeChild(el);
+      el.remove();
     }
   }, [id]);
 
