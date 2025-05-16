@@ -8,10 +8,27 @@ interface UseDueChargesQueryProps {
   repository: DueChargesRepository
 }
 
-export const useGetDueChargesQuery = ({ repository }: UseDueChargesQueryProps) => {
+interface UseAccountsQueryReturn {
+  isSuccess: boolean,
+  isFetching: boolean,
+  refetch: () => Promise<unknown>,
+  data?: GetDueChargesDTO,
+  error: null | ApiDataValidationError | ApiServerError
+}
+
+export const useGetDueChargesQuery = ({ repository }: UseDueChargesQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetDueChargesDTO, ApiDataValidationError | ApiServerError>({
     queryKey: DUE_CHARGES_QUERY_KEYS.getDueCharges,
     queryFn: () => repository.getDueCharges()
   });
-  return query;
+ 
+  return {
+    isFetching: query.isFetching,
+    isSuccess: query.isSuccess,
+    refetch: async () => {
+      await query.refetch(); 
+    },
+    data: query.data,
+    error: query.error
+  };
 };

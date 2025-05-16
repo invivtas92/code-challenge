@@ -9,11 +9,28 @@ interface UseAccountsQueryProps {
   repository: AccountRepository
 }
 
-export const useGetAccountsQuery = ({ repository }: UseAccountsQueryProps) => {
+interface UseAccountsQueryReturn {
+  isSuccess: boolean,
+  isFetching: boolean,
+  refetch: () => Promise<unknown>,
+  data?: GetAccountsDTO,
+  error: null | ApiDataValidationError | ApiServerError
+}
+
+export const useGetAccountsQuery = ({ repository }: UseAccountsQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetAccountsDTO, ApiDataValidationError | ApiServerError>({
     queryKey: ACCOUNT_QUERY_KEYS.getAccounts,
     queryFn: () => repository.getAccounts()
   });
-  return query;
+  
+  return {
+    isFetching: query.isFetching,
+    isSuccess: query.isSuccess,
+    refetch: async () => {
+      await query.refetch(); 
+    },
+    data: query.data,
+    error: query.error
+  };
 };
 

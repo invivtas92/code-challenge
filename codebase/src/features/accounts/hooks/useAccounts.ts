@@ -39,13 +39,13 @@ export const useAccounts = ({ accountRepository, dueChargesRepository }: UseAcco
 
   if (dueChargesRes.isSuccess && accountsRes.isSuccess) {
     const adjustedData: AdjustedData[] = [];
-    accountsRes.data.forEach((accDetails) => {
+    accountsRes.data?.forEach((accDetails) => {
       adjustedData.push({ ...accDetails, balance: 0 });
     });
 
     if (adjustedData.length > 0) {
       const balanceMap = new Map<string, number>();
-      dueChargesRes.data.forEach(({ accountId, amount }) => {
+      dueChargesRes.data?.forEach(({ accountId, amount }) => {
         if (balanceMap.has(accountId)) {
           balanceMap.set(accountId, (balanceMap.get(accountId) ?? 0) + amount);
         } else {
