@@ -1,0 +1,4 @@
+{
+  "loading": "Fallback loading...",
+  "hello": "Fallback Hello {{name}}"
+}

@@ -1,13 +1,17 @@
+import { useTranslation } from '@infra/i18n/useTranslation';
 import styles from './SimpleLoading.module.scss';
+
 
 interface SimpleLoadingProps {
   text?: string
 }
-export const SimpleLoading = ({ text = 'Loading...' }: SimpleLoadingProps) => {
+export const SimpleLoading = ({ text }: SimpleLoadingProps) => {
+  const { translate } = useTranslation('commons');
+  
   return (
     <div className={styles.loadingContainer}>
       <div className={styles.loadingSpinner} />
-      <p className={styles.loadingText}>{text}</p>
+      <p className={styles.loadingText}>{text ?? translate('hello', { name: 'asd' })}</p>
     </div>
   )
 };
