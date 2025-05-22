@@ -8,7 +8,7 @@ interface I18NProviderPRops {
 
 export const I18nProvider = ({ children }: I18NProviderPRops) => {
   return <Suspense fallback={<div>Loading i18n</div>}>
-    <I18nextProvider i18n={i18n} defaultNS={'commons'}>
+    <I18nextProvider i18n={i18n}>
       {children}
     </I18nextProvider>
   </Suspense>

@@ -1,0 +1,4 @@
+{
+  "loading": "Test Fallback loading...",
+  "hello": "Test Fallback Hello {{name}}"
+}

@@ -29,7 +29,7 @@ type StringKeyPathToRecordUnion<
   
 type InterpolationMap<Text> = StringKeyPathToRecord<ParseInterpolationValues<Text>, unknown>
 
-export const useTranslation = <NS extends keyof Resources>(ns: NS) => {
+export const useAppTranslation = <NS extends keyof Resources>(ns: NS) => {
   const { t } = useI18NextTranslation(ns);
   const translate = <Key extends keyof Resources[NS]>(
     key: Key,
@@ -41,4 +41,3 @@ export const useTranslation = <NS extends keyof Resources>(ns: NS) => {
 
   return { translate };
 };
-

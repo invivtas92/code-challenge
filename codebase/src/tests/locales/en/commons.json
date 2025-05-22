@@ -1,0 +1,4 @@
+{
+  "loading": "Test Loading...",
+  "hello": "Test Hello {{name}}"
+}
