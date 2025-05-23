@@ -3,7 +3,6 @@ import { renderHook, waitFor } from '@testing-library/react';
 import { expect, test } from 'vitest';
 import { FakeAccountRepository } from '@repositories/account/account.repository.fake';
 import { FakeDueChargesRepository } from '@repositories/dueCharges/dueCharges.repository.fake';
-import { createWrapperWithTestReactQuery } from '@/tests/createWrapperWithTestReactQuery';
 import { GetAccountsDTO } from '@repositories/account/dtos/getAccounts.dto';
 import { GetDueChargesDTO } from '@repositories/dueCharges/dtos/getDueCharges.dto';
 
@@ -56,9 +55,7 @@ const UseAccountsTest = test.extend<TestFixtures>({
 UseAccountsTest('Returns correct accounts data with balance, refetchData fn and react query props', async ({ setup }) => {
   const { testAccounts, testDueCharges, fakeAccountsRepo, fakeDueChargesRepo } = setup();
 
-  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }), {
-    wrapper: createWrapperWithTestReactQuery
-  });
+  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }));
 
   const { result } = hook;
 
@@ -98,9 +95,7 @@ UseAccountsTest('Returns data containing empty array when account repository get
 
   fakeAccountsRepo.getAccountsRes = [];
 
-  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }), {
-    wrapper: createWrapperWithTestReactQuery
-  });
+  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }));
 
   const { result } = hook;
 
@@ -118,9 +113,7 @@ UseAccountsTest('Returns data containing accounts array with their balance set t
 
   fakeDueChargesRepo.getDueChargesRes = [];
 
-  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }), {
-    wrapper: createWrapperWithTestReactQuery
-  });
+  const hook = renderHook(() => useAccounts({ accountRepository: fakeAccountsRepo, dueChargesRepository: fakeDueChargesRepo }));
 
   const { result } = hook;
 

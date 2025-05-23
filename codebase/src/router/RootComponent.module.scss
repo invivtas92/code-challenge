@@ -6,3 +6,8 @@ $spacing: 8px;
   flex: 1;
   margin: $spacing;
 }
+
+.nav {
+  display: flex;
+  gap: $spacing;
+}

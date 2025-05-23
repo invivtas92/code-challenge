@@ -1,6 +1,5 @@
-import { createTestRouter } from '@tests/createTestRouter';
 import { SimpleErrorAndReload } from './SimpleErrorAndReload';
-import { render, RenderResult, waitFor } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 import { expect, Mock, test, vi } from 'vitest';
 
@@ -11,6 +10,7 @@ interface TestFixtures {
     pageName: string,
     reloadFn: Mock,
     user: UserEvent,
+    reloadButton: HTMLElement | null
   }
 }
 
@@ -21,33 +21,25 @@ const SimpleErrorAndReloadTest = test.extend<TestFixtures>({
       const pageName = 'Test Page';
       const reloadFn = vi.fn();
 
-      const router = createTestRouter({
-        component: <SimpleErrorAndReload error={error} pageName={pageName} reload={reloadFn} />,
-        routePath: '/',
-        currentPath: '/'
-      });
-      const screen = render(router);
+      const screen = render(<SimpleErrorAndReload error={error} pageName={pageName} reload={reloadFn} />);
       const user = userEvent.setup();
+
+      const reloadButton = screen.queryByRole('button', { name: /reload/i });
 
       return {
         screen,
         error,
         pageName,
         reloadFn,
-        user
+        user,
+        reloadButton
       };
     });
   }
 });
 
-SimpleErrorAndReloadTest('Correctly renders SimpleErrorAndReload component', async ({ setup }) => {
-  const { screen, error, pageName } = setup();
-  await waitFor(() => {
-    // wait for tanstack router to render content
-    expect(screen.baseElement.childNodes[0].hasChildNodes()).toEqual(true);
-  });
-
-  const reloadButton = screen.queryByRole('button', { name: /reload/i });
+SimpleErrorAndReloadTest('Correctly renders SimpleErrorAndReload component', ({ setup }) => {
+  const { screen, error, pageName, reloadButton } = setup();
 
   screen.getByText(error.message);
   
@@ -56,10 +48,7 @@ SimpleErrorAndReloadTest('Correctly renders SimpleErrorAndReload component', asy
 });
 
 SimpleErrorAndReloadTest('Correctly calls provided reload function when reload button is clicked', async ({ setup }) => {
-  const { user, reloadFn, screen } = setup();
-  await waitFor(() => screen.baseElement.childNodes[0].hasChildNodes());
- 
-  const reloadButton = screen.queryByRole('button', { name: /reload/i });
+  const { user, reloadFn, reloadButton } = setup();
 
   expect(reloadButton).not.toEqual(null);
   if (reloadButton) {
