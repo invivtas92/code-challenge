@@ -1,5 +1,7 @@
+import { CacheService } from "@/services/cache/cache.service.abstract";
 import { AccountRepository } from "./account.repository.abstract";
 import { GetAccountsDTO } from "./dtos/getAccounts.dto";
+import { cacheService } from "@services/cache/cache.service";
 
 const accounts: GetAccountsDTO = [
   {
@@ -59,12 +61,27 @@ const accounts: GetAccountsDTO = [
 ];
 
 class MockAccountRepository extends AccountRepository {
+  #cache: CacheService;
+
+  constructor(cache: CacheService) {
+    super();
+    this.#cache = cache;
+  }
+
   async getAccounts(): Promise<GetAccountsDTO> {
-    return new Promise<GetAccountsDTO>((resolve) => {
-      setTimeout(() => {
-        resolve(accounts);
-      }, 1000);
-    });
+    const cachedData = this.#cache.get<GetAccountsDTO>('/accounts');
+    if (cachedData === null) {
+      const data = new Promise<GetAccountsDTO>((resolve) => {
+        setTimeout(() => {
+          resolve(accounts);
+        }, 1000);
+      });
+
+      this.#cache.set('/accounts', data);
+      return data;
+    } else {
+      return cachedData;
+    }
   }
 }
 
@@ -73,5 +90,5 @@ class MockAccountRepository extends AccountRepository {
  * instance of MockAccountRepository to be imported and used throughout the codebase
  */
 
-const mockAccountRepository = new MockAccountRepository();
+const mockAccountRepository = new MockAccountRepository(cacheService);
 export { mockAccountRepository, MockAccountRepository };
