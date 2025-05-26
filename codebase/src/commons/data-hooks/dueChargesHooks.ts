@@ -2,6 +2,7 @@ import { useQuery } from '../hooks/useQuery';
 import { ApiDataValidationError, ApiServerError } from "@commons/error";
 import { DueChargesRepository } from "@repositories/dueCharges/dueCharges.repository.abstract";
 import { GetDueChargesDTO } from "@repositories/dueCharges/dtos/getDueCharges.dto";
+import { useCallback } from 'react';
 
 interface UseDueChargesQueryProps {
   repository: DueChargesRepository
@@ -17,7 +18,7 @@ interface UseAccountsQueryReturn {
 
 export const useGetDueChargesQuery = ({ repository }: UseDueChargesQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetDueChargesDTO, ApiDataValidationError | ApiServerError>({
-    queryFn: () => repository.getDueCharges()
+    queryFn: useCallback(() => repository.getDueCharges(), [])
   });
  
   return {

@@ -2,6 +2,7 @@ import { useQuery } from '../hooks/useQuery';
 import { ApiDataValidationError, ApiServerError } from "@/commons/error";
 import { AccountRepository } from "@repositories/account/account.repository.abstract";
 import { GetAccountsDTO } from "@repositories/account/dtos/getAccounts.dto";
+import { useCallback } from 'react';
 
 interface UseAccountsQueryProps {
   repository: AccountRepository
@@ -17,7 +18,7 @@ interface UseAccountsQueryReturn {
 
 export const useGetAccountsQuery = ({ repository }: UseAccountsQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetAccountsDTO, ApiDataValidationError | ApiServerError>({
-    queryFn: () => repository.getAccounts()
+    queryFn: useCallback(() => repository.getAccounts(), [])
   });
   
   return {

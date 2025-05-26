@@ -18,8 +18,8 @@ export const SimpleRouter = () => {
   }, []);
 
   useEffect(() => {
-    console.log('currentPath', currentPath);
-    //set document.title here
+    const route = routes.find((r) => r.path === currentPath);
+    document.title = route ? route.title : 'Not Found';
   }, [currentPath]);
 
   const route = routes.find(r => r.path === currentPath);
