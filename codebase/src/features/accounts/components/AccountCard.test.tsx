@@ -62,4 +62,3 @@ AccountCardTest('Correctly calls the payment click handler on click', async ({ s
     expect(makePaymentFn.mock.calls[0]).toEqual([testData.id]);
   }
 });
-
