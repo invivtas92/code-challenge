@@ -20,7 +20,7 @@ export const useGetDueChargesQuery = ({ repository }: UseDueChargesQueryProps): 
   const query = useQuery<GetDueChargesDTO, ApiDataValidationError | ApiServerError>({
     queryFn: useCallback(() => repository.getDueCharges(), [])
   });
- 
+
   return {
     isFetching: query.isFetching,
     isSuccess: query.isSuccess,

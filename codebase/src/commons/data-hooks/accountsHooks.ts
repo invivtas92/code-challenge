@@ -20,7 +20,7 @@ export const useGetAccountsQuery = ({ repository }: UseAccountsQueryProps): UseA
   const query = useQuery<GetAccountsDTO, ApiDataValidationError | ApiServerError>({
     queryFn: useCallback(() => repository.getAccounts(), [])
   });
-  
+
   return {
     isFetching: query.isFetching,
     isSuccess: query.isSuccess,
