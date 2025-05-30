@@ -16,7 +16,7 @@ export default defineConfig({
       tsconfig: './tsconfig.test.json',
       include: ['src/**/*.test.[jt]s?(x)'],
     },
-    setupFiles: 'src/tests/setup.ts',
+    setupFiles: ['@vitest/web-worker', 'src/tests/setup.ts'],
     environment: 'jsdom'
   },
 })

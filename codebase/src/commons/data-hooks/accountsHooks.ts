@@ -18,7 +18,7 @@ interface UseAccountsQueryReturn {
 
 export const useGetAccountsQuery = ({ repository }: UseAccountsQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetAccountsDTO, ApiDataValidationError | ApiServerError>({
-    queryFn: useCallback(() => repository.getAccounts(), [])
+    queryFn: useCallback(() => repository.getAccounts(), [repository])
   });
 
   return {

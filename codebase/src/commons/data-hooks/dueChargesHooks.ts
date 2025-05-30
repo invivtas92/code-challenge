@@ -18,7 +18,7 @@ interface UseAccountsQueryReturn {
 
 export const useGetDueChargesQuery = ({ repository }: UseDueChargesQueryProps): UseAccountsQueryReturn => {
   const query = useQuery<GetDueChargesDTO, ApiDataValidationError | ApiServerError>({
-    queryFn: useCallback(() => repository.getDueCharges(), [])
+    queryFn: useCallback(() => repository.getDueCharges(), [repository])
   });
 
   return {

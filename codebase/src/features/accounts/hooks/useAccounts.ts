@@ -2,10 +2,11 @@
 import { AccountRepository } from "@repositories/account/account.repository.abstract"
 import { AccountDTO } from "@repositories/account/dtos/getAccounts.dto"
 import { ApiDataValidationError, ApiServerError } from "@commons/error"
-import { useCallback } from "react"
+import { useCallback, useEffect } from "react"
 import { DueChargesRepository } from "@repositories/dueCharges/dueCharges.repository.abstract"
 import { useGetDueChargesQuery } from "@commons/data-hooks/dueChargesHooks"
 import { useGetAccountsQuery } from "@commons/data-hooks/accountsHooks"
+import { simpleWorkerService } from "@/infra/worker/simpleWorker.service"
 
 interface UseAccountsProps {
   accountRepository: AccountRepository,
@@ -28,6 +29,18 @@ interface UseAccountsReturn {
 export const useAccounts = ({ accountRepository, dueChargesRepository }: UseAccountsProps): UseAccountsReturn => {
   const accountsRes = useGetAccountsQuery({ repository: accountRepository });
   const dueChargesRes = useGetDueChargesQuery({ repository: dueChargesRepository });
+
+  useEffect(() => {
+    void simpleWorkerService.exec({
+      methodName: 'runSumAsync',
+      args: [{ count: 10 }]
+    });
+
+    void simpleWorkerService.exec({
+      methodName: 'runAddMultiple',
+      args: [5, 2, 1]
+    });
+  }, []);
 
 
   const refetchData = useCallback((): void => {
