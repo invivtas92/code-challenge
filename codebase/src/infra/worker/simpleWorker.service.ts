@@ -61,4 +61,4 @@ class SimpleWorkerServiceImpl<T extends CommandSignaturesType> extends SimpleWor
 }
 
 const simpleWorkerService = new SimpleWorkerServiceImpl<WorkerCmdSignatures>();
-export { simpleWorkerService };
+export { simpleWorkerService, SimpleWorkerServiceImpl };

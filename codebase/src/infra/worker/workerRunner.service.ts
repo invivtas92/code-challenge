@@ -11,7 +11,10 @@ class WorkerRunnerImpl implements WorkerRunner {
 
   async runSumAsync({ count }: { count: number; }): Promise<number> {
     await sleep(5000);
-    let sum = 0; for (let i = 1; i <= count; i++) sum += i;
+    let sum = 0;
+    for (let i = 1; i <= count; i++) {
+      sum += i
+    };
     return sum;
   }
 
@@ -21,6 +24,7 @@ class WorkerRunnerImpl implements WorkerRunner {
 
   messageHandler = async (message: MessageEvent<MessageReqData<WorkerCmdSignatures>>) => {
     const { args, id, method } = message.data;
+    console.log("Worker received message: ", message.data);
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
       const result = await this[method](...args as [any, any, any]);
