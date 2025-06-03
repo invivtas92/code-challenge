@@ -29,7 +29,7 @@ export const SimpleRouter = () => {
     <div className={styles.main}>
       <nav className={styles.nav}>
         <Link to={routes[0].path}>Home</Link>
-        <Link to={routes[1].path}>test</Link>
+        <Link to={routes[1].path}>Canvas Playground</Link>
       </nav>
       <Suspense fallback={<div>Router Loading...</div>}>
         <Component />
