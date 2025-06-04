@@ -3,7 +3,7 @@ import { useMatrixCanvas } from './hooks/useMatrixCanvas';
 
 export const CanvasPlaygroundView = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  useMatrixCanvas({ canvasRef, fps: 100 });
+  useMatrixCanvas({ canvasRef, fps: 100, cols: 60 });
 
   return (
     <div>

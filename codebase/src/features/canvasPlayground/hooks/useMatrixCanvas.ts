@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 interface UseMatrixCanvasProp {
   canvasRef: React.RefObject<HTMLCanvasElement | null>,
   fps: number,
   charColor?: string,
-  charSize?: number,
+  cols?: number
 }
 
-function useMatrixCanvas({ canvasRef, fps, charColor = '#0f0', charSize = 16 }: UseMatrixCanvasProp) {
+function useMatrixCanvas({ canvasRef, fps, charColor = '#0f0', cols = 50 }: UseMatrixCanvasProp) {
+  const reqId = useRef<number>(0);
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (canvas !== null) {
@@ -21,7 +23,7 @@ function useMatrixCanvas({ canvasRef, fps, charColor = '#0f0', charSize = 16 }: 
         speed: number
       }[] = [];
 
-      const cols = Math.floor(width / charSize);
+      const charSize = width / cols;
   
       for (let i = 0; i < cols; i++) {
         matrixChars[i] = {
@@ -70,12 +72,17 @@ function useMatrixCanvas({ canvasRef, fps, charColor = '#0f0', charSize = 16 }: 
           }
         }
   
-        requestAnimationFrame(drawMatrix);
+        reqId.current = requestAnimationFrame(drawMatrix);
       }
   
-      drawMatrix(0);
+      reqId.current = requestAnimationFrame(drawMatrix);
     }
-  }, [canvasRef, charColor, charSize, fps]);
+
+    return () => {
+      cancelAnimationFrame(reqId.current);
+    };
+
+  }, [canvasRef, charColor, cols, fps]);
 };
 
 export { useMatrixCanvas };
