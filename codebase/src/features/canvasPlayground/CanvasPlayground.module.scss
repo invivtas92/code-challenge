@@ -1,0 +1,110 @@
+@property --a {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+} // this value can be changed by el.style.setProperty('--a', '50deg');
+
+@property --offset {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
+  .matrixCanvas {
+    width: 100%;
+    height: 500px;
+  }
+
+  .arc {
+    --a: 250deg;
+    --b: 10px; /* the boder thickness */
+    --_g:/ var(--b) var(--b) no-repeat radial-gradient(50% 50%,#000 97%,#0000);
+
+    /* radial-gradient(50% 50%,#000 90%,#0000) -> shape is not provided in first param so the 2 numbers are for
+    size, 50% 50% = 50% of --b is used as horizontal radius, 50% of --b is used as vertical radius. We want 50% 
+    because by default since no position provided it is centered by default which is why setting a radius to 50% width
+    and height creates circle filling 10px (--b) square (the square size is set by var(--b) var(--b) in --_g).
+    Then sets 97% of that circle as black #000, and sets the rest 3% of the circle and areas outside of the circle
+    to be transparent. Using this as mask, makes it so whatever element is masked, only the content in element in the
+    same spot as black circle area is visible. The first mask top var(--_g), puts this 10px square with 5px radius
+    circle at the center with 97% black and everything else transparent at the top of the masked element which
+    is 50px box with 10px padding, 50% border radius making it a circle with 35px radius (include padding on both sides
+    so 50px + 10px + 10px for diameter which when divided by 2 we get the radius = 35px) */
+    
+    width: 50px;
+    aspect-ratio: 1;
+    padding: var(--b);
+    border-radius: 50%;
+    background: #c0d860;
+    transition: --a 2s cubic-bezier(.4,0,.2,1);
+   
+    mask: 
+      top var(--_g),
+      linear-gradient(#0000 0% 100%) content-box intersect,
+      conic-gradient(#000 var(--a),#0000 0),
+      calc(50% + 50%*sin(var(--a))) calc(50% - 50%*cos(var(--a))) var(--_g);
+
+    /* the calc(50% + 50%*sin(var(--a))) calc(50% - 50%*cos(var(--a))) var(--_g) is used to create a 10px (--b) circle
+    positioned at the end of the ring to make the progress bar looks nicer */
+    /* linear-gradient(#0000 0% 100%) content-box intersect basically creates fully transparent box from top to bottom
+    but because content-box is specified, the transparent area is only in the content area (padding not included), then
+    intersect is used so if there is non transparent area in both the current mask and the following masks, only non
+    transparent area in all the masks will be visible, hence only the border part of the conic gradient pie below
+    is visible, making it look like a 50deg ring */
+    /* conic-gradient(#000 var(--a),#0000 0) simply sets center-to-top to center-to-50deg as black, creating 50deg 
+    black pie (curved edge because of the bordeer radius 50%), then rest is transparent */
+    /* calc(50% + 50%*sin(var(--a))) calc(50% - 50%*cos(var(--a))) var(--_g); adds the same 10px (--b) circle like the first
+    one but with different position. The x coordinate is calculated using trigonometry (imagine forming right angle triangle
+    where radius is the hypothenus, angle is 50deg (--a), opposite is the distance from center to the point in circle circum
+    ference that forms 50deg pie, we don't care about adjacent for calculating the x coordinate using SOH CAH TOA
+    SOH is sin 50deg = opposite / hypo (radius), so opposite = sin 50deg * 50% (radius). which gives us how far the x coordinate
+    is from the center so we need to ADD it with 50% to get the correct coordinate since center is 50% instead of 0 so the full
+    formula is calc(50% + 50%*sin(var(--a))). For the  y coordinate, it is the same but we want to find adjacent while knowing
+    hypothenus and degree angle so we use CAH. cos 50deg = adjacent / hypo (radius). So adj = cos 50deg * 50% (radius) which
+    gives us how far the y point is from the center. so to get the correct y coordinate we need to REDUCE 50% (center y coordinate)
+    with the calculation above, this is because 0 is at the top so if the y coordinate is at the top we want to reduce it from the
+    center point. so the full formula is calc(50% - 50%*cos(var(--a))) (on the second and third quadrant cos(91deg - 269de) will
+    be negative which will end up increasing the y coordinate which is good because y coordinate  in 2nd and 3rd quadrant will always
+    be higher than the center coordinate
+    */
+  }
+}
+
+.progress-ring {
+  display: block;
+  width: 100px;
+  height: 100px;
+  /* Optional: rotate to start progress at top */
+  transform: rotate(-90deg);
+}
+
+.progress-ring__track {
+  fill: none;
+  stroke: #e0e0e0; /* Track color */
+  stroke-width: 10;
+}
+
+.progress-ring__value {
+  --progress: 0.75;
+  --offset: calc((2 * 3.14 * 40) - (var(--progress) * (2 * 3.14 * 40)));
+  fill: none;
+  stroke: #c0d860; /* Progress color */
+  stroke-width: 10;
+  stroke-linecap: round;
+  /* Animate the progress ring with keyframes */
+  stroke-dasharray: calc(2 * 3.14 * 40); /* 2 * π * r, r=40 */
+  stroke-dashoffset: calc(2 * 3.14 * 40); /* Hidden by default */
+  animation: progress 2s forwards;
+}
+
+@keyframes progress {
+  to {
+    /* For 50% progress, set to 50% of circumference */
+    stroke-dashoffset: var(--offset); /* 251.327 * 0.5 */
+  }
+}

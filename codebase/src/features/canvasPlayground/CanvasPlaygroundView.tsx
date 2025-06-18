@@ -11,6 +11,10 @@ export const CanvasPlaygroundView = () => {
       <h1>Canvas Playground</h1>
       <canvas ref={canvasRef} id="matrixCanvas" className={styles.matrixCanvas} />
       <div className={styles.arc} />
+      <svg className={styles['progress-ring']} width="100" height="100">
+        <circle className={styles['progress-ring__track']} cx="50" cy="50" r="40"/>
+        <circle className={styles['progress-ring__value']} cx="50" cy="50" r="40"/>
+      </svg>
     </div>
   );
 };
